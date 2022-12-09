@@ -25,7 +25,7 @@
   BUILD_TARGETS                  = NOOPT|DEBUG|RELEASE
   SKUID_IDENTIFIER               = DEFAULT
   FLASH_DEFINITION               = OvmfPkg/AmdSev/AmdSevX64.fdf
-  PREBUILD                       = sh OvmfPkg/AmdSev/Grub/grub.sh
+  #PREBUILD                       = sh OvmfPkg/AmdSev/Grub/grub.sh
 
   #
   # Defines for default states.  These can be changed on the command line.
@@ -61,7 +61,7 @@
 !ifdef $(FD_SIZE_4MB)
   DEFINE FD_SIZE_IN_KB           = 4096
 !else
-  DEFINE FD_SIZE_IN_KB           = 4096
+  DEFINE FD_SIZE_IN_KB           = 65536
 !endif
 !endif
 !endif
@@ -394,7 +394,7 @@
   # match PcdFlashNvStorageVariableSize purely for convenience
   gEfiMdeModulePkgTokenSpaceGuid.PcdVariableStoreSize|0xe000
 !endif
-!if $(FD_SIZE_IN_KB) == 4096
+!if ($(FD_SIZE_IN_KB) == 4096) || ($(FD_SIZE_IN_KB) == 65536)
   gEfiMdeModulePkgTokenSpaceGuid.PcdMaxVariableSize|0x8400
   gEfiMdeModulePkgTokenSpaceGuid.PcdMaxAuthVariableSize|0x8400
   # match PcdFlashNvStorageVariableSize purely for convenience
@@ -427,7 +427,7 @@
   # DEBUG_VERBOSE   0x00400000  // Detailed debug messages that may
   #                             // significantly impact boot performance
   # DEBUG_ERROR     0x80000000  // Error
-  gEfiMdePkgTokenSpaceGuid.PcdDebugPrintErrorLevel|0x8000004F
+  gEfiMdePkgTokenSpaceGuid.PcdDebugPrintErrorLevel|0x8040004F
 
 !if $(SOURCE_DEBUG_ENABLE) == TRUE
   gEfiMdePkgTokenSpaceGuid.PcdDebugPropertyMask|0x17
